@@ -1,0 +1,15 @@
+WTLMReceiver  KEYWORD1
+enableReceive KEYWORD2
+enableReceive KEYWORD2
+disableReceive  KEYWORD2
+available KEYWORD2
+resetAvailable  KEYWORD2
+getReceivedMessage  KEYWORD2
+checkCRC  KEYWORD2
+getTemp KEYWORD2
+getDepth  KEYWORD2
+getDevice KEYWORD2
+getSerial KEYWORD2
+getLowBattery KEYWORD2
+getTransmitInterval KEYWORD2
+calcCRC KEYWORD2

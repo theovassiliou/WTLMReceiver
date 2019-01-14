@@ -104,6 +104,7 @@ unsigned char *WTLMReceiver::getReceivedMessage() {
                 bitstr2Byte(sizeof(bits), bits, rawMessage);
                 reverseNibbles(bits, sizeof(bits), rBits);
                 bitstr2Byte(sizeof(rBits), rBits, message);
+                this->messageAvailable = true;
         }
         return this->message;
 }
@@ -144,11 +145,12 @@ bool WTLMReceiver::checkCRC() {
    Temp: (13-TEMP_H) (12-TEMP_M) (10-TEMP_L)
 
    @param *message        the received message
-   @return                tge measured temperatur in celsuis*10. -40 if invalid
+   @return                the measured temperatur in celsuis*10. -40 if invalid
  */
 signed int WTLMReceiver::getTemp() {
         unsigned char *message = getReceivedMessage();
-        unsigned int result = 0;
+        signed int result = 0;
+
         result = (result | getNibble(message, 13)) << 4;
         result = (result | getNibble(message, 12)) << 4;
         result = (result | getNibble(message, 10));
@@ -166,6 +168,7 @@ signed int WTLMReceiver::getTemp() {
 unsigned int WTLMReceiver::getDepth() {
         unsigned char *message = getReceivedMessage();
         unsigned int result = 0;
+
         result = (result | getNibble(message, 7)) << 4;
         result = (result | getNibble(message, 6)) << 4;
         result = (result | getNibble(message, 8));
@@ -327,10 +330,10 @@ void WTLMReceiver::reverseNibbles(char *bits, int bitLen, char *rBits) {
 unsigned char WTLMReceiver::getNibble(unsigned char *message, unsigned int nibblePos) {
         if ((nibblePos % 2) == 0) {
                 // even == high bytes
-                return (message[nibblePos / 2] >> 4) & 0xf0;
+                return (message[nibblePos / 2] >> 4) & 0x0f;
         } else {
                 //odd == low bytes
-                return message[nibblePos / 2] & 0x0f;
+                return (message[nibblePos / 2] ) & 0x0f;
         }
 }
 
